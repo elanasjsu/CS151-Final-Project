@@ -2,7 +2,9 @@
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		final DateSet dataset = new DateSet(); //Model
+		Calendar calendar = new Calendar(); //View
+		
 
 	}
 
