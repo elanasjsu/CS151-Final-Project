@@ -1,19 +1,18 @@
 /**
- * DateSet is the model used to hold an arraylist of dates.
+ * DateSet is the model used to hold a hashtable of dates and todolists.
  * Each date has a day/month/year + a ToDoList Associated with it.
- * frames in question2.
  */
 import java.util.*;
 import javax.swing.event.*;
 
-public class DateSet extends ArrayList<DateItem>
+public class DateSet
 {
-	private ArrayList<DateItem> items;
+	private Hashtable<Date, ToDoList> table;
 	private ArrayList<ChangeListener> listeners;
-	private DateItem selectedDateItem;
+	private Date selectedEntry;
 	
 	public DateSet() {
-		items = new ArrayList<>();
+		table = new Hashtable<Date, ToDoList>();
 		listeners = new ArrayList<>();
 	}
 	
@@ -21,24 +20,24 @@ public class DateSet extends ArrayList<DateItem>
 	 * Sets the selected DateItem from the Calendar.
 	 * @param item
 	 */
-	public void selectDate(DateItem item) {
-		selectedDateItem = item;
+	public void selectDate(Date date) {
+		selectedEntry = date;
 	}
 	
 	/**
 	 * Retrieves the selected DateItem for ToDoListFrame to use. 
 	 * @return
 	 */
-	public DateItem getSelectedDate() {
-		return selectedDateItem;
+	public Date getSelectedDate() {
+		return selectedEntry;
 	}
 	
 	/**
-	 * Add a new item to items ArrayList
-	 * @param item
+	 * Add a new item to table Hashtable
+	 * @param date
 	 */
-	public void addItem(DateItem item) {
-		items.add(item);
+	public void add(Date date) {
+		table.put(date, new ToDoList());
 
 		// Notify all observers of the change to the dataset
 		ChangeEvent event = new ChangeEvent(this);
@@ -48,11 +47,11 @@ public class DateSet extends ArrayList<DateItem>
 	
 	/**
 	 * Replace value of existing item
-	 * @param index
-	 * @param item
+	 * @param date
+	 * @param list
 	 */
-	public void changeItem(int index, DateItem item) {
-		items.set(index, item);	
+	public void updateList(Date date, ToDoList list) {
+		table.replace(date, list);	
 		
 		// Notify all observers of the change to the dataset
 		ChangeEvent event = new ChangeEvent(this);
@@ -61,32 +60,29 @@ public class DateSet extends ArrayList<DateItem>
 	}
 	
 	/**
-	 * Check if item exists in items ArrayList
-	 * @param index
+	 * Check if item exists in table Hashtable
+	 * @param date
 	 * @return
 	 */
-	public Boolean isFilled(int index) {
-		System.out.println("fill?");
-		if(items.get(index).equals(null))
-			return false;
-		return true;
+	public Boolean containsDate(Date date) {
+		return table.containsKey(date);
 	}
 	
 	/**
 	 * Returns item at index
-	 * @param x
+	 * @param date
 	 * @return
 	 */
-	public DateItem getItem(int x) {
-		return items.get(x);
+	public ToDoList getList(Date date) {
+		return table.get(date);
 	}
 	
 	/**
-	 * Returns size of items ArrayList
+	 * Returns size of table Hashtable
 	 * @return
 	 */
 	public int getSize() {
-		return items.size();
+		return table.size();
 	}
 	
 	/**
@@ -98,22 +94,18 @@ public class DateSet extends ArrayList<DateItem>
 	}
 
 	/**
-	 * Returns items ArrayList
+	 * Returns table Hashtable
 	 * @return
 	 */
-	public ArrayList<DateItem> getItems() {
-		return items;
+	public Hashtable<Date, ToDoList> getTable() {
+		return table;
 	}
 
 	/**
-	 * String version of items ArrayList
+	 * String version of table Hashtable
 	 */
 	public String toString() {
-		String r = "";
-		for(int x = 0; x < items.size(); x++) {
-			r += items.get(x).toString() + ", ";
-		}
-		return r;
+		return table.toString();
 	}
 }
 
