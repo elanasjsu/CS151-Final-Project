@@ -10,22 +10,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class ToDoList {
-	private Date title;
 	private ArrayList<ListItem> list;
 	private ArrayList<ChangeListener> listeners;
 	
-	public ToDoList(Date title) {
-		title = title;
+	public ToDoList() {
 		list = new ArrayList<>();
 		listeners = new ArrayList<>();
-	}
-	
-	/**
-	 * Gets the title of the ToDoList
-	 * @return
-	 */
-	public Date getTitle() {
-		return title;
 	}
 	
 	/**
@@ -35,6 +25,19 @@ public class ToDoList {
 	public void addItem(ListItem item) {
 		list.add(item);
 
+		// Notify all observers of the change to the dataset
+		ChangeEvent event = new ChangeEvent(this);
+		for (ChangeListener listener : listeners)
+			listener.stateChanged(event);
+	}
+	
+	/**
+	 * Delete an item from list ArrayList
+	 * @param item
+	 */
+	public void deleteItem(ListItem item) {
+		list.remove(item);
+		
 		// Notify all observers of the change to the dataset
 		ChangeEvent event = new ChangeEvent(this);
 		for (ChangeListener listener : listeners)
