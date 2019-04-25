@@ -1,18 +1,20 @@
 Here is how the classes depend and interoperate with each other:
 
-The main data set is DateSet which holds an arraylist of DateItems.
-
-DateItems contain a Date and a ToDoList.
+The main data set is DateSet which holds an hashtbale of Dates as keys and ToDoList as values.
 
 ToDoLists are comprised of ListItems.
 
-Calendar retrieves all the DateItems from the DateSet with the same 
-month & year and displays them.
+Calendar retrieves all values from the DateSet with the same month & year and displays them.
 
-When a DateItem is selected on the Calendar, the DateSet selectedDateItem
+When a table value is selected on the Calendar, the DateSet selectedEntry
 is updated, which will automatically update the ToDoListFrame.
 
-The ToDoListFrame displays the selectedDateItem's Date and ToDoList.
+The ToDoListFrame displays the selectedEntry's Date and ToDoList.
 
 When the ToDoList is editted in the ToDoListFrame, the DateSet is updated 
 to reflect those changes. 
+
+Classes:
+	DateSet -> Hashtable<Date, ToDoList>
+	ToDoListFrame -> ToDoList -> ListItems
+	Calendar ->
