@@ -28,8 +28,12 @@ public class DateSet
 	 * Retrieves the selected DateItem for ToDoListFrame to use. 
 	 * @return
 	 */
-	public Date getSelectedDate() {
+	public Date getSelectedEntryDate() {
 		return selectedEntry;
+	}
+	
+	public ToDoList getSelectedEntryList() {
+		return table.get(selectedEntry);
 	}
 	
 	/**
