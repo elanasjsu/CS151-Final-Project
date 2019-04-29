@@ -51,13 +51,13 @@ public class ToDoListFrame {
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200, 250));
 
-		Button buttonOne = new Button("one");
-		Button buttonTwo = new Button("two");
-		Button buttonThree = new Button("three");
-		Button buttonFour = new Button("four");
+		Button buttonOne = new Button("delete task");
+		Button buttonTwo = new Button("edit task");
+		Button buttonThree = new Button("add task");
+		Button buttonFour = new Button("export");
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		buttonPanel.add(buttonOne);
 		buttonPanel.add(buttonTwo);
 		buttonPanel.add(buttonThree);
@@ -74,7 +74,7 @@ public class ToDoListFrame {
 
 		constraints.gridy = 2;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		panel.add(new JSeparator(SwingConstants.HORIZONTAL), constraints);
+		panel.add(new JTextField(), constraints);
 
 		constraints.gridy = 3;
 		panel.add(buttonPanel, constraints);
