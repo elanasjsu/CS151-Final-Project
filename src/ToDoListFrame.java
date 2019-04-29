@@ -1,10 +1,8 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import com.sun.tools.javac.comp.Flow;
+
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.text.html.ListView;
 
 public class ToDoListFrame {
 	
@@ -32,20 +30,55 @@ public class ToDoListFrame {
 	 * add title + list to the frame.
 	 */
 	public void populateFrame() {
-		JLabel label = new JLabel(set.getSelectedEntryDate().toString()); //title of the ToDoList
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+		panel.setLayout(new GridBagLayout());
+
+		GridBagConstraints constraints = new GridBagConstraints();
+
+		JLabel label = new JLabel(set.getSelectedEntryDate().toString()); //title of the ToDoList
+
 		ToDoList selectedList = set.getSelectedEntryList();
 		
 		//adds each item in the list as a new textfield to a panel
+		String[] data = new String[selectedList.getSize()];
 		for(int i = 0; i < selectedList.getSize(); i++) {
-			JTextField field = new JTextField(selectedList.getItem(i).toString()); 
-			panel.add(field);
+			data[i] = selectedList.getItem(i).toString();
 		}
-		
+		JList<String> list = new JList<>(data);
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		JScrollPane listScroller = new JScrollPane(list);
+		listScroller.setPreferredSize(new Dimension(200, 250));
+
+		Button buttonOne = new Button("one");
+		Button buttonTwo = new Button("two");
+		Button buttonThree = new Button("three");
+		Button buttonFour = new Button("four");
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.add(buttonOne);
+		buttonPanel.add(buttonTwo);
+		buttonPanel.add(buttonThree);
+		buttonPanel.add(buttonFour);
+
 		//adds the title and panel of items to the frame
-		frame.add(label);
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.weightx = 1.0;
+		panel.add(label, constraints);
+
+		constraints.gridy = 1;
+		panel.add(listScroller, constraints);
+
+		constraints.gridy = 2;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(new JSeparator(SwingConstants.HORIZONTAL), constraints);
+
+		constraints.gridy = 3;
+		panel.add(buttonPanel, constraints);
+
 		frame.add(panel);
 		
 		//would need to add those buttons at the bottom to the frame here...
