@@ -4,7 +4,6 @@ public class main {
 
 	public static void main(String[] args) {
 		final DateSet dateset = new DateSet(); //Model
-<<<<<<< HEAD
 		Calendar calendar = new Calendar(); //View
 		
 		/*
@@ -27,8 +26,6 @@ public class main {
 		 * 
 		 */
 		
-		
-=======
 //		Calendar calendar = new Calendar(); //View
 
 		Date curDate = new Date();
