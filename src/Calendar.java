@@ -20,10 +20,16 @@ public class Calendar {
     static JPanel panelCalendar;
     static int theYear, theMonth, theDay, currYear, currMonth;
 
-
-    public static void main(String args[]) {
-
+    public Calendar(){
         frame = new JFrame("Calendar");
+        populateFrame();
+
+    }
+
+
+    public void populateFrame() {
+
+
         frame.setSize(360, 385);
         container = frame.getContentPane();
 
