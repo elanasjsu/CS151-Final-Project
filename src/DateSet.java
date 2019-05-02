@@ -23,7 +23,7 @@ public class DateSet
 	 * Sets the selected DateItem from the Calendar.
 	 * @param item
 	 */
-	public void setSelectedEntry(Date date) {
+	public void selectDate(Date date) {
 		selectedEntry = date;
 	}
 
@@ -31,11 +31,11 @@ public class DateSet
 	 * Retrieves the selected DateItem for ToDoListFrame to use. 
 	 * @return
 	 */
-	public Date getSelectedEntryDate() {
+	public Date getSelectedDate() {
 		return selectedEntry;
 	}
 
-	public ToDoList getSelectedEntryList() {
+	public ToDoList getSelectedList() {
 		return table.get(selectedEntry);
 	}
 
