@@ -42,7 +42,6 @@ public class main {
 
 		ToDoListFrame toDoListFrame = new ToDoListFrame();
 		toDoListFrame.repaint(dateset);
->>>>>>> 629ca68225d6662feb501acd9201f53c87254717
 	}
 
 }
