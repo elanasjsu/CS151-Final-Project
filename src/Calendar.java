@@ -1,8 +1,10 @@
 
-import java.util.*;
+
 import java.awt.*;
 import javax.swing.table.*;
+import java.util.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class Calendar {
 
@@ -14,18 +16,20 @@ public class Calendar {
     static JFrame frame;
     static JLabel lMonth; //month label
     static JLabel today;  //today's date
+    static JLabel Month;
+    static JLabel Day;
+    static JLabel Year;
     static JTable tCalendar; //table for the calendar view
     static DefaultTableModel dtCalendar; //default tabel model
     static JScrollPane spCalendar;
     static JPanel panelCalendar;
     static int theYear, theMonth, theDay, currYear, currMonth;
 
-    public Calendar(){
+    public Calendar() {
         frame = new JFrame("Calendar");
         populateFrame();
 
     }
-
 
     public void populateFrame() {
 
@@ -35,19 +39,24 @@ public class Calendar {
 
         Prev = new JButton("Prev");
         Next = new JButton("Next");
-        today = new JLabel("today's date");
+        today = new JLabel("Today:");
         lMonth = new JLabel("month");
         navYear = new JComboBox();
 
         dtCalendar = new DefaultTableModel() {
             //method provided by the tabel model interface
-            public boolean isCellEditable(int ColIndex,int rowIndex ) {
+            public boolean isCellEditable(int ColIndex, int rowIndex) {
                 return false;
             }
         };
         panelCalendar = new JPanel(null);
         tCalendar = new JTable(dtCalendar);
         spCalendar = new JScrollPane(tCalendar);
+
+        //adding listeners
+        navYear.addActionListener(new yearNavAction());
+        Prev.addActionListener(new bPrevAction());
+        Next.addActionListener(new bNextAction());
 
 
         //adding all components
@@ -75,13 +84,28 @@ public class Calendar {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //get todays date
-        GregorianCalendar cal = new GregorianCalendar();
-        theMonth = cal.get(GregorianCalendar.MONTH);
-        theDay = cal.get(GregorianCalendar.DAY_OF_MONTH);
-        theYear = cal.get(GregorianCalendar.YEAR);
+        GregorianCalendar c = new GregorianCalendar();
+        theMonth = c.get(GregorianCalendar.MONTH);
+        theDay = c.get(GregorianCalendar.DAY_OF_MONTH);
+        theYear = c.get(GregorianCalendar.YEAR);
         currYear = theYear;
         currMonth = theMonth;
 
+        //System.out.println(theDay);
+        //System.out.println(theMonth);
+        //System.out.println(theYear);
+
+        Month = new JLabel(String.valueOf(theMonth + 1) + "");
+        panelCalendar.add(Month);
+        Month.setBounds(20, 325, 90, 20);
+
+        Day = new JLabel(" /" + theDay);
+        panelCalendar.add(Day);
+        Day.setBounds(25, 325, 90, 20);
+
+        Year = new JLabel("  /" + theYear);
+        panelCalendar.add(Year);
+        Year.setBounds(35, 325, 90, 20);
 
         //days of the week row
         String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -110,23 +134,40 @@ public class Calendar {
         String[] months = {"January", "February", "March", "April", "May",
                 "June", "July", "August", "September", "October",
                 "November", "December"};
+        int startDay;
         int numOfdays;
+
 
         lMonth.setText(months[month]); //sets the current month
         navYear.setSelectedItem(String.valueOf(year));
 
+        //clearing the calendar table
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                dtCalendar.setValueAt(null, i, j);
+            }
+
+        }
 
         //retrieve numOfDays
-        GregorianCalendar cal = new GregorianCalendar(year, month, 1);
-        numOfdays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        GregorianCalendar c = new GregorianCalendar(year, month, 1);
+        startDay = c.get(GregorianCalendar.DAY_OF_WEEK);
+        numOfdays = c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 
         //this for loop properly fills in the table in the appropriate rows/columns
+
         for (int i = 1; i <= numOfdays; i++) {
-            int column = new Integer((i ) % 7);
-            int row = new Integer((i) / 7);
+            //int column = new Integer((i) % 7);
+            //int row = new Integer((i) / 7);
+
+            int row = new Integer((i + startDay - 2) / 7);
+            int column = (i + startDay - 2) % 7;
 
             dtCalendar.setValueAt(i, row, column);
+
         }
+
+        
 
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
     }
@@ -137,10 +178,10 @@ public class Calendar {
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
             if (column == 0 || column == 6) {   //sat or sun
                 setBackground(new Color(255, 250, 252));
-            }
-            else {
+            } else {
                 setBackground(new Color(255, 255, 255));
             }
 
@@ -149,8 +190,7 @@ public class Calendar {
                         && currMonth == theMonth
                         && currYear == theYear) { //if todays date set to red
                     setForeground(Color.red);
-                }
-                else {
+                } else {
                     setForeground(Color.black);  //else black
                 }
             }
@@ -160,15 +200,47 @@ public class Calendar {
         }
     }
 
-   /* static class bprevAction implements ActionListener {
+    //this handles the actions of the previous button
+    static class bPrevAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (currMonth == 0) {
+                currMonth = 11;
+                currYear -= 1;
+            } else {
+                currMonth -= 1;
+            }
+            refresh(currMonth, currYear);
+        }
+    }
+
+    //this handles the actions of the next button
+    static class bNextAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (currMonth == 11) {
+                currMonth = 0;
+                currYear += 1;
+            } else {
+                currMonth += 1;
+            }
+            refresh(currMonth, currYear);
+        }
 
     }
 
-    static class bnextAction implements ActionListener {
-
-    }
-
+    //this handles the actions of the navigation between years
     static class yearNavAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (navYear.getSelectedItem() != null) {
+                String s = navYear.getSelectedItem().toString();
+                currYear = Integer.parseInt(s);
+                refresh(currMonth, currYear);
+            }
 
-    } */
+        }
+
+    }
 }
+
+
+
+
