@@ -167,7 +167,7 @@ public class Calendar {
 
         }
 
-        
+
 
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
     }
