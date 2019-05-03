@@ -51,6 +51,19 @@ public class Calendar {
         };
         panelCalendar = new JPanel(null);
         tCalendar = new JTable(dtCalendar);
+
+
+
+
+       /* tCalendar.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Clicked!");
+            }
+        }); */
+
+
+
+
         spCalendar = new JScrollPane(tCalendar);
 
         //adding listeners
@@ -164,10 +177,7 @@ public class Calendar {
             int column = (i + startDay - 2) % 7;
 
             dtCalendar.setValueAt(i, row, column);
-
         }
-
-
 
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
     }
