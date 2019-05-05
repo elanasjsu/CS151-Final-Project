@@ -26,8 +26,6 @@ public class main {
 		 * 
 		 */
 		
-//		Calendar calendar = new Calendar(); //View
-
 		Date curDate = new Date();
 		ToDoList toDoList = new ToDoList();
 

@@ -3,16 +3,16 @@ import javax.swing.*;
 import javax.swing.text.html.ListView;
 
 public class ToDoListFrame {
-	
+
 	JFrame frame;
 	DateSet set;
-	
+
 	public ToDoListFrame() {
 		frame = new JFrame();
 		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 	}
-	
-	/** 
+
+	/**
 	 * Sets the data, populates the graph, and reconfigures the frame.
 	 * @param set
 	 */
@@ -21,7 +21,7 @@ public class ToDoListFrame {
 		populateFrame();
 		config();
 	}
-	
+
 	/**
 	 * Get's the selectedEntry value from DateSet set,
 	 * retrieve the Date and ToDoList associated, and
@@ -78,10 +78,10 @@ public class ToDoListFrame {
 		panel.add(buttonPanel, constraints);
 
 		frame.add(panel);
-		
+
 		//would need to add those buttons at the bottom to the frame here...
 	}
-	
+
 	/*
 	 * This is triggered when user clicks "Add" button on ToDoListFrame
 	 * Adding Item to ToDoList
@@ -89,9 +89,9 @@ public class ToDoListFrame {
 	 * the model by calling table.updateList(date, list)
 	 */
 	public void addItem(ListItem item) {
-		
+
 	}
-	
+
 	/*
 	 * This is triggered when user clicks "Delete" button on ToDoListFrame
 	 * Deleting Item from ToDoList
@@ -99,9 +99,9 @@ public class ToDoListFrame {
 	 * the model by calling table.updateList(date, list)
 	 */
 	public void deleteItem(ListItem item) {
-		
+
 	}
-	
+
 	/**
 	 * Clean frame and reset data
 	 * @param set
@@ -112,15 +112,15 @@ public class ToDoListFrame {
 		frame.setLayout(new FlowLayout());
 		setData(set);
 	}
-	
+
 	/**
 	 * Configure frame
 	 */
 	public void config() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("To Do List");
-        frame.setMinimumSize(new Dimension(50, 50));
-        frame.pack();
-        frame.setVisible(true);
+		frame.setTitle("To Do List");
+		frame.setMinimumSize(new Dimension(50, 50));
+		frame.pack();
+		frame.setVisible(true);
 	}
 }
