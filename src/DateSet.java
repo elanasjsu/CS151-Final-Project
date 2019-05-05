@@ -17,6 +17,13 @@ public class DateSet
 	public DateSet() {
 		table = new Hashtable<Date, ToDoList>();
 		listeners = new ArrayList<>();
+		setEmptySelectedEntry();
+	}
+	
+	public void setEmptySelectedEntry() {
+		selectedEntry = new Date();
+		add(selectedEntry);
+		System.out.println("Initialized an empty list for today's date.");
 	}
 
 	/**

@@ -26,20 +26,13 @@ public class main {
 		 * 
 		 */
 		
-		Date curDate = new Date();
-		ToDoList toDoList = new ToDoList();
+		Date curDate = dateset.getSelectedDate();
+		ToDoList toDoList = dateset.getSelectedList();
 		ToDoListFrame toDoListFrame = new ToDoListFrame();
 		
 		//when the dataset model is changed, update the bar graph view
 		//dateset.addChangeListener(event -> toDoListFrame.repaint(dateset));
 
-		for(int i = 0; i < 5; i++){
-			toDoList.addItem(new ListItem("item " + i));
-		}
-
-		dateset.add(curDate);
-		dateset.selectDate(curDate);
-		dateset.updateList(curDate, toDoList);
 		
 		toDoListFrame.repaint(dateset);
 		
