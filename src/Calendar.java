@@ -28,10 +28,12 @@ public class Calendar {
     public Calendar() {
         frame = new JFrame("Calendar");
         populateFrame();
-
     }
 
     public void populateFrame() {
+
+        int numOfdays = 0;
+        int startDay = 0;
 
         frame.setSize(360, 385);
         container = frame.getContentPane();
@@ -50,16 +52,6 @@ public class Calendar {
         };
         panelCalendar = new JPanel(null);
         tCalendar = new JTable(dtCalendar);
-
-
-
-       /* tCalendar.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicked!");
-            }
-        }); */
-
-
         spCalendar = new JScrollPane(tCalendar);
 
         //adding listeners
@@ -136,6 +128,7 @@ public class Calendar {
 
         //calls refresh method to later change the months/years
         refresh(theMonth, theYear);
+
     }
 
     public static void refresh(int month, int year) {
@@ -155,7 +148,6 @@ public class Calendar {
             for (int j = 0; j < 7; j++) {
                 dtCalendar.setValueAt(null, i, j);
             }
-
         }
 
         //retrieve numOfDays
@@ -166,16 +158,11 @@ public class Calendar {
         //this for loop properly fills in the table in the appropriate rows/columns
 
         for (int i = 1; i <= numOfdays; i++) {
-            //int column = new Integer((i) % 7);
-            //int row = new Integer((i) / 7);
-
             int row = new Integer((i + startDay - 2) / 7);
             int column = new Integer(i + startDay - 2) % 7;
-
             dtCalendar.setValueAt(i, row, column);
 
         }
-
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
     }
 
@@ -188,8 +175,10 @@ public class Calendar {
 
             if (column == 0 || column == 6) {   //sat or sun
                 setBackground(new Color(255, 250, 252));
+
             } else {
                 setBackground(new Color(255, 255, 255));
+
             }
 
             if (value != null) {
@@ -199,12 +188,20 @@ public class Calendar {
                     setForeground(Color.red);
                 } else {
                     setForeground(Color.black);  //else black
+
                 }
+            }
+
+            if (isSelected && hasFocus) {
+                setBackground(Color.pink);
+            } else {
+                setBackground(Color.white);
             }
 
             setBorder(null);
             return this;
         }
+
     }
 
     //this handles the actions of the previous button
@@ -242,12 +239,8 @@ public class Calendar {
                 currYear = Integer.parseInt(s);
                 refresh(currMonth, currYear);
             }
-
         }
-
     }
-
-
 }
 
 
