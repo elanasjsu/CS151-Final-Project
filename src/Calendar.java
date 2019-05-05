@@ -1,5 +1,4 @@
 
-
 import java.awt.*;
 import javax.swing.table.*;
 import java.util.*;
@@ -25,6 +24,7 @@ public class Calendar {
     static JPanel panelCalendar;
     static int theYear, theMonth, theDay, currYear, currMonth;
 
+
     public Calendar() {
         frame = new JFrame("Calendar");
         populateFrame();
@@ -32,7 +32,6 @@ public class Calendar {
     }
 
     public void populateFrame() {
-
 
         frame.setSize(360, 385);
         container = frame.getContentPane();
@@ -54,7 +53,6 @@ public class Calendar {
 
 
 
-
        /* tCalendar.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Clicked!");
@@ -62,14 +60,12 @@ public class Calendar {
         }); */
 
 
-
-
         spCalendar = new JScrollPane(tCalendar);
 
         //adding listeners
-        navYear.addActionListener(new yearNavAction());
-        Prev.addActionListener(new bPrevAction());
-        Next.addActionListener(new bNextAction());
+        navYear.addActionListener(new yearNav());
+        Prev.addActionListener(new bPrev());
+        Next.addActionListener(new bNext());
 
 
         //adding all components
@@ -174,9 +170,10 @@ public class Calendar {
             //int row = new Integer((i) / 7);
 
             int row = new Integer((i + startDay - 2) / 7);
-            int column = (i + startDay - 2) % 7;
+            int column = new Integer(i + startDay - 2) % 7;
 
             dtCalendar.setValueAt(i, row, column);
+
         }
 
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
@@ -211,7 +208,7 @@ public class Calendar {
     }
 
     //this handles the actions of the previous button
-    static class bPrevAction implements ActionListener {
+    static class bPrev implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (currMonth == 0) {
                 currMonth = 11;
@@ -224,7 +221,7 @@ public class Calendar {
     }
 
     //this handles the actions of the next button
-    static class bNextAction implements ActionListener {
+    static class bNext implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (currMonth == 11) {
                 currMonth = 0;
@@ -238,7 +235,7 @@ public class Calendar {
     }
 
     //this handles the actions of the navigation between years
-    static class yearNavAction implements ActionListener {
+    static class yearNav implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (navYear.getSelectedItem() != null) {
                 String s = navYear.getSelectedItem().toString();
@@ -249,6 +246,8 @@ public class Calendar {
         }
 
     }
+
+
 }
 
 
