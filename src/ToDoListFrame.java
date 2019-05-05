@@ -11,9 +11,10 @@ public class ToDoListFrame {
 	String[] tasks;
 	JList<String> list;
 
-	public ToDoListFrame() {
+	public ToDoListFrame(DateSet set) {
 		frame = new JFrame();
 		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		setData(set);
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class ToDoListFrame {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
-		JLabel label = new JLabel(set.getSelectedDate().toString()); //title of the ToDoList
+		JLabel label = new JLabel(set.getSelectedDay().toString()); //title of the ToDoList
 		
 		//adds each item in the list to a panel
 		tasks = new String[selectedList.getSize()];
