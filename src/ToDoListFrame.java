@@ -11,9 +11,10 @@ public class ToDoListFrame {
 	String[] tasks;
 	JList<String> list;
 
-	public ToDoListFrame() {
+	public ToDoListFrame(DateSet set) {
 		frame = new JFrame();
 		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		setData(set);
 	}
 
 	/**
