@@ -7,6 +7,7 @@ public class ToDoListFrame {
 	JFrame frame;
 	DateSet set;
 	Button buttonOne, buttonTwo, buttonThree, buttonFour;
+	String newItemText;
 
 	public ToDoListFrame() {
 		frame = new JFrame();
@@ -44,6 +45,7 @@ public class ToDoListFrame {
 			data[i] = selectedList.getItem(i).toString();
 		}
 		
+		//lists and scrolls through the ListItems 
 		JList<String> list = new JList<>(data);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
@@ -60,17 +62,30 @@ public class ToDoListFrame {
 		constraints.gridy = 1;
 		panel.add(listScroller, constraints);
 
+		//Add text field panel for adding new items
 		constraints.gridy = 2;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		panel.add(new JTextField(), constraints);
+		JTextField field = addTextField();
+		panel.add(field, constraints);
 
+		//Add the buttons at the bottom 
 		constraints.gridy = 3;
 		JPanel buttonPanel = addButtons();
 		panel.add(buttonPanel, constraints);
 
 		frame.add(panel);
-
-		//would need to add those buttons at the bottom to the frame here...
+	}
+	
+	public JTextField addTextField() {
+		JTextField field = new JTextField();
+		
+		field.addActionListener(event ->
+        {
+        	newItemText = field.getText();
+		    System.out.println("Typed: " + field.getText());
+		});
+		
+		return field;
 	}
 	
 	public JPanel addButtons() {
@@ -95,6 +110,7 @@ public class ToDoListFrame {
 		
 		buttonThree.addActionListener(event ->
         {
+        	addNewItem();
 		    System.out.println("Add Button clicked");
 		});
 		
@@ -117,8 +133,11 @@ public class ToDoListFrame {
 	 * Call list.addItem to the list, then update
 	 * the model by calling table.updateList(date, list)
 	 */
-	public void addItem(ListItem item) {
-		
+	public void addNewItem() {
+		System.out.println("In add new Item");
+		ListItem item = new ListItem(newItemText);
+		set.getSelectedList().addItem(item);
+		repaint(set);
 	}
 
 	/*
