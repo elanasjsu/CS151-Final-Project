@@ -6,6 +6,7 @@ public class ToDoListFrame {
 
 	JFrame frame;
 	DateSet set;
+	Button buttonOne, buttonTwo, buttonThree, buttonFour;
 
 	public ToDoListFrame() {
 		frame = new JFrame();
@@ -42,24 +43,13 @@ public class ToDoListFrame {
 		for(int i = 0; i < selectedList.getSize(); i++) {
 			data[i] = selectedList.getItem(i).toString();
 		}
+		
 		JList<String> list = new JList<>(data);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200, 250));
-
-		Button buttonOne = new Button("delete task");
-		Button buttonTwo = new Button("edit task");
-		Button buttonThree = new Button("add task");
-		Button buttonFour = new Button("export");
-
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		buttonPanel.add(buttonOne);
-		buttonPanel.add(buttonTwo);
-		buttonPanel.add(buttonThree);
-		buttonPanel.add(buttonFour);
 
 		//adds the title and panel of items to the frame
 		constraints.gridx = 0;
@@ -75,25 +65,64 @@ public class ToDoListFrame {
 		panel.add(new JTextField(), constraints);
 
 		constraints.gridy = 3;
+		JPanel buttonPanel = addButtons();
 		panel.add(buttonPanel, constraints);
 
 		frame.add(panel);
 
 		//would need to add those buttons at the bottom to the frame here...
 	}
+	
+	public JPanel addButtons() {
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		
+		buttonOne = new Button("delete task");
+		buttonTwo = new Button("edit task");
+		buttonThree = new Button("add task");
+		buttonFour = new Button("export");
+		
+		buttonOne.addActionListener(event ->
+        {
+		    System.out.println("Delete Button clicked");
+		});
+		
+		buttonTwo.addActionListener(event ->
+        {
+		    System.out.println("Edit Button clicked");
+		});
+		
+		buttonThree.addActionListener(event ->
+        {
+		    System.out.println("Add Button clicked");
+		});
+		
+		buttonFour.addActionListener(event ->
+        {
+		    System.out.println("Export Button clicked");
+		});
+		
+		buttonPanel.add(buttonOne);
+		buttonPanel.add(buttonTwo);
+		buttonPanel.add(buttonThree);
+		buttonPanel.add(buttonFour);
+
+		return buttonPanel;
+	}
 
 	/*
-	 * This is triggered when user clicks "Add" button on ToDoListFrame
+	 * This is triggered when user clicks "Add" on ToDoListFrame
 	 * Adding Item to ToDoList
 	 * Call list.addItem to the list, then update
 	 * the model by calling table.updateList(date, list)
 	 */
 	public void addItem(ListItem item) {
-
+		
 	}
 
 	/*
-	 * This is triggered when user clicks "Delete" button on ToDoListFrame
+	 * This is triggered when user clicks "Delete" on ToDoListFrame
 	 * Deleting Item from ToDoList
 	 * Call list.deleteItem from the list, then update
 	 * the model by calling table.updateList(date, list)
