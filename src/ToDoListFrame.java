@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.text.html.ListView;
 
 public class ToDoListFrame {
 
@@ -103,7 +102,7 @@ public class ToDoListFrame {
 		
 		buttonOne.addActionListener(event ->
         {
-        	deleteItem(list.getSelectedIndex());
+        	deleteItem();
 		    System.out.println("Delete Button clicked");
 		});
 		
@@ -135,24 +134,34 @@ public class ToDoListFrame {
 	/**
 	 * Deleting Item from ToDoList and updates the dataset
 	 */
-	public void deleteItem(int index) {
-		System.out.println("In delete item");
-    	selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
-    	repaint(set);
+	public void deleteItem() {
+		try {
+			System.out.println("In delete item");
+	    	selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
+	    	repaint(set);
+		} catch (Exception e) {};
 	}
 	
 	public void editItem() {
-		
+		try{
+			System.out.println("Editting Item");
+			ListItem item = selectedList.getItem(list.getSelectedIndex());
+			item.setName(newItemText);
+			selectedList.changeItem(list.getSelectedIndex(), item);
+			repaint(set);
+		} catch (Exception e) {};
 	}
 	
 	/**
 	 * Adding Item to ToDoList and updates the dataset
 	 */
 	public void addNewItem() {
-		System.out.println("In add new Item");
-		ListItem item = new ListItem(newItemText);
-		selectedList.addItem(item);
-		repaint(set);
+		try{
+			System.out.println("In add new Item");
+			ListItem item = new ListItem(newItemText);
+			selectedList.addItem(item);
+			repaint(set);
+		} catch (Exception e) {};
 	}
 
 	/**
