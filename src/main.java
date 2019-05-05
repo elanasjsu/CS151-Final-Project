@@ -27,7 +27,7 @@ public class main {
 		 * 
 		 */
 		
-		Date curDate = dateset.getSelectedDate();
+		Day curDate = dateset.getSelectedDay();
 		ToDoList toDoList = dateset.getSelectedList();
 		
 		//when the dataset model is changed, update the bar graph view

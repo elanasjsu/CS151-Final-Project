@@ -39,7 +39,7 @@ public class ToDoListFrame {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
-		JLabel label = new JLabel(set.getSelectedDate().toString()); //title of the ToDoList
+		JLabel label = new JLabel(set.getSelectedDay().toString()); //title of the ToDoList
 		
 		//adds each item in the list to a panel
 		tasks = new String[selectedList.getSize()];

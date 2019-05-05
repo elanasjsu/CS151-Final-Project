@@ -9,7 +9,7 @@ public class Calendar {
 
     // all the necessary components to make up Frame 1, the calendar component
 	static JFrame frame;
-	DateSet set;
+	static DateSet set;
     static JComboBox navYear; // combobox to navigate thru the years
     static Container container;
     static JButton Prev, Next; //buttons for changing months
@@ -194,6 +194,8 @@ public class Calendar {
 
             if (isSelected && hasFocus) {
                 setBackground(Color.pink);
+                System.out.println("Date: " + value + "/" + (currMonth + 1) + "/" + currYear);
+                set.selectDay(new Day(currYear, currMonth + 1, (int)value));
             } else {
                 setBackground(Color.white);
             }
