@@ -6,8 +6,11 @@ public class ToDoListFrame {
 
 	JFrame frame;
 	DateSet set;
+	ToDoList selectedList;
 	Button buttonOne, buttonTwo, buttonThree, buttonFour;
 	String newItemText;
+	String[] tasks;
+	JList<String> list;
 
 	public ToDoListFrame() {
 		frame = new JFrame();
@@ -20,6 +23,7 @@ public class ToDoListFrame {
 	 */
 	public void setData(DateSet set) {
 		this.set = set;
+		this.selectedList = set.getSelectedList();
 		populateFrame();
 		config();
 	}
@@ -36,20 +40,19 @@ public class ToDoListFrame {
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		JLabel label = new JLabel(set.getSelectedDate().toString()); //title of the ToDoList
-
-		ToDoList selectedList = set.getSelectedList();
 		
-		//adds each item in the list as a new textfield to a panel
-		String[] data = new String[selectedList.getSize()];
+		//adds each item in the list to a panel
+		tasks = new String[selectedList.getSize()];
 		for(int i = 0; i < selectedList.getSize(); i++) {
-			data[i] = selectedList.getItem(i).toString();
+			tasks[i] = selectedList.getItem(i).toString();
 		}
 		
 		//lists and scrolls through the ListItems 
-		JList<String> list = new JList<>(data);
+		list = new JList<>(tasks);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
+		
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200, 250));
 
@@ -100,11 +103,13 @@ public class ToDoListFrame {
 		
 		buttonOne.addActionListener(event ->
         {
+        	deleteItem(list.getSelectedIndex());
 		    System.out.println("Delete Button clicked");
 		});
 		
 		buttonTwo.addActionListener(event ->
         {
+        	editItem();
 		    System.out.println("Edit Button clicked");
 		});
 		
@@ -127,27 +132,27 @@ public class ToDoListFrame {
 		return buttonPanel;
 	}
 
-	/*
-	 * This is triggered when user clicks "Add" on ToDoListFrame
-	 * Adding Item to ToDoList
-	 * Call list.addItem to the list, then update
-	 * the model by calling table.updateList(date, list)
+	/**
+	 * Deleting Item from ToDoList and updates the dataset
+	 */
+	public void deleteItem(int index) {
+		System.out.println("In delete item");
+    	selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
+    	repaint(set);
+	}
+	
+	public void editItem() {
+		
+	}
+	
+	/**
+	 * Adding Item to ToDoList and updates the dataset
 	 */
 	public void addNewItem() {
 		System.out.println("In add new Item");
 		ListItem item = new ListItem(newItemText);
-		set.getSelectedList().addItem(item);
+		selectedList.addItem(item);
 		repaint(set);
-	}
-
-	/*
-	 * This is triggered when user clicks "Delete" on ToDoListFrame
-	 * Deleting Item from ToDoList
-	 * Call list.deleteItem from the list, then update
-	 * the model by calling table.updateList(date, list)
-	 */
-	public void deleteItem(ListItem item) {
-
 	}
 
 	/**
