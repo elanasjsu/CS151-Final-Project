@@ -4,7 +4,8 @@ public class main {
 
 	public static void main(String[] args) {
 		final DateSet dateset = new DateSet(); //Model
-		Calendar calendar = new Calendar(); //View
+		Calendar calendar = new Calendar(dateset); //View
+		ToDoListFrame toDoListFrame = new ToDoListFrame(dateset);
 		
 		/*
 		 * MVC: Model-View-Controller interactions
@@ -28,7 +29,6 @@ public class main {
 		
 		Date curDate = dateset.getSelectedDate();
 		ToDoList toDoList = dateset.getSelectedList();
-		ToDoListFrame toDoListFrame = new ToDoListFrame(dateset);
 		
 		//when the dataset model is changed, update the bar graph view
 		//dateset.addChangeListener(event -> toDoListFrame.repaint(dateset));
