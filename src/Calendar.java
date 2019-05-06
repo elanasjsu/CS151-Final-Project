@@ -24,16 +24,9 @@ public class Calendar {
     static JPanel panelCalendar;
     static int theYear, theMonth, theDay, currYear, currMonth;
 
-<<<<<<< HEAD
-
-    public Calendar() {
-        frame = new JFrame("Calendar");
-        populateFrame();
-=======
     public Calendar(DateSet set) {
         frame = new JFrame("Calendar");
         setData(set);
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
     }
     
     /**
@@ -73,10 +66,6 @@ public class Calendar {
         navYear.addActionListener(new yearNav());
         Prev.addActionListener(new bPrev());
         Next.addActionListener(new bNext());
-<<<<<<< HEAD
-
-=======
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
 
         //adding all components
         container.add(panelCalendar);
@@ -138,7 +127,6 @@ public class Calendar {
 
         //calls refresh method to later change the months/years
         refresh(theMonth, theYear);
-
     }
     
 	/**
@@ -167,11 +155,7 @@ public class Calendar {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++)
                 dtCalendar.setValueAt(null, i, j);
-<<<<<<< HEAD
             }
-=======
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
-        }
 
         //retrieve numOfDays
         GregorianCalendar c = new GregorianCalendar(year, month, 1);
@@ -183,13 +167,8 @@ public class Calendar {
             int row = new Integer((i + startDay - 2) / 7);
             int column = new Integer(i + startDay - 2) % 7;
             dtCalendar.setValueAt(i, row, column);
-<<<<<<< HEAD
+        }
 
-        }
-=======
-        }
-        
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
         tCalendar.setDefaultRenderer(tCalendar.getColumnClass(0), new tableCalendarRenderer());
     }
 
@@ -201,16 +180,8 @@ public class Calendar {
 
             if (column == 0 || column == 6)   //sat or sun
                 setBackground(new Color(255, 250, 252));
-<<<<<<< HEAD
-
-            } else {
-                setBackground(new Color(255, 255, 255));
-
-            }
-=======
             else
                 setBackground(new Color(255, 255, 255));
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
 
             if (value != null) {
                 if (Integer.parseInt(value.toString()) == theDay
@@ -219,10 +190,6 @@ public class Calendar {
                     setForeground(Color.red);
                 } else
                     setForeground(Color.black);  //else black
-<<<<<<< HEAD
-
-                }
-=======
             }
 
             if (isSelected && hasFocus) {
@@ -231,19 +198,11 @@ public class Calendar {
                 set.selectDay(new Day(currYear, currMonth + 1, (int)value));
             } else {
                 setBackground(Color.white);
->>>>>>> bc3b16882e65495dbd8220b0dc6d2a5bdf854374
-            }
-
-            if (isSelected && hasFocus) {
-                setBackground(Color.pink);
-            } else {
-                setBackground(Color.white);
             }
 
             setBorder(null);
             return this;
         }
-
     }
 
     //this handles the actions of the previous button
