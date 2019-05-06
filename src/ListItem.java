@@ -1,13 +1,14 @@
-
 public class ListItem {
     String item;
 
-    ListItem(String item){
-        this.item = item;
+    public ListItem(String item){
+    	this.item = item;
+    }
+    
+    public void setName(String name) {
+    	this.item = name;
     }
 
-
-    @Override
     public java.lang.String toString() {
         return item;
     }
