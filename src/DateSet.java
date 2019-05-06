@@ -28,11 +28,14 @@ public class DateSet
 
 	/**
 	 * Sets the selected DayItem from the Calendar.
-	 * @param item
+	 * @param Day
 	 */
 	public void selectDay(Day Day) {
 		selectedEntry = Day;
-		
+
+		if (!table.containsKey(selectedEntry))
+			add(selectedEntry);
+
 		// Notify all observers of the change to the dataset
 		ChangeEvent event = new ChangeEvent(this);
 		for (ChangeListener listener : listeners)
@@ -72,11 +75,6 @@ public class DateSet
 	 */
 	public void add(Day Day) {
 		table.put(Day, new ToDoList());
-
-		// Notify all observers of the change to the dataset
-		ChangeEvent event = new ChangeEvent(this);
-		for (ChangeListener listener : listeners)
-			listener.stateChanged(event);
 	}
 
 	/**
