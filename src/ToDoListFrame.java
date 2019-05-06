@@ -1,11 +1,17 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class ToDoListFrame {
 
 	JFrame frame;
+	JLabel date;
 	DateSet set;
 	ToDoList selectedList;
+	JScrollPane listScroller;
 	Button buttonOne, buttonTwo, buttonThree, buttonFour;
 	String newItemText;
 	String[] tasks;
@@ -15,6 +21,14 @@ public class ToDoListFrame {
 		frame = new JFrame();
 		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		setData(set);
+		populateFrame();
+		config();
+
+		set.addChangeListener(e -> {
+			date.setText(set.getSelectedDay().toString());
+			setData(set);
+			repaint(set);
+		});
 	}
 
 	/**
@@ -24,8 +38,6 @@ public class ToDoListFrame {
 	public void setData(DateSet set) {
 		this.set = set;
 		this.selectedList = set.getSelectedList();
-		populateFrame();
-		config();
 	}
 
 	/**
@@ -39,28 +51,18 @@ public class ToDoListFrame {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
-		JLabel label = new JLabel(set.getSelectedDay().toString()); //title of the ToDoList
+		date = new JLabel(set.getSelectedDay().toString()); //title of the ToDoList
 		
-		//adds each item in the list to a panel
-		tasks = new String[selectedList.getSize()];
-		for(int i = 0; i < selectedList.getSize(); i++) {
-			tasks[i] = selectedList.getItem(i).toString();
-		}
+		createList();
 		
-		//lists and scrolls through the ListItems 
-		list = new JList<>(tasks);
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.setLayoutOrientation(JList.VERTICAL);
-		list.setVisibleRowCount(-1);
-		
-		JScrollPane listScroller = new JScrollPane(list);
+		listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200, 250));
 
 		//adds the title and panel of items to the frame
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.weightx = 1.0;
-		panel.add(label, constraints);
+		panel.add(date, constraints);
 
 		constraints.gridy = 1;
 		panel.add(listScroller, constraints);
@@ -78,14 +80,42 @@ public class ToDoListFrame {
 
 		frame.add(panel);
 	}
+
+	void createList(){
+		//adds each item in the list to a panel
+		tasks = new String[selectedList.getSize()];
+		for(int i = 0; i < selectedList.getSize(); i++) {
+			tasks[i] = selectedList.getItem(i).toString();
+		}
+
+		//lists and scrolls through the ListItems
+		list = new JList<>(tasks);
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+	}
 	
 	public JTextField addTextField() {
 		JTextField field = new JTextField();
-		
-		field.addActionListener(event ->
-        {
-        	newItemText = field.getText();
-		    System.out.println("Typed: " + field.getText());
+
+		field.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				newItemText = field.getText();
+				System.out.println("Typed: " + field.getText());
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				newItemText = field.getText();
+				System.out.println("Typed: " + field.getText());
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				newItemText = field.getText();
+				System.out.println("Typed: " + field.getText());
+			}
 		});
 		
 		return field;
@@ -170,10 +200,11 @@ public class ToDoListFrame {
 	 * @param set
 	 */
 	public void repaint(DateSet set) {
-		frame.getContentPane().removeAll();
-		frame.repaint();
-		frame.setLayout(new FlowLayout());
 		setData(set);
+		createList();
+		listScroller.setViewportView(list);
+		listScroller.repaint();
+		frame.repaint();
 	}
 
 	/**

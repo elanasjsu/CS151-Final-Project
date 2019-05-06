@@ -73,4 +73,14 @@ public class Day {
 	public String toString() {
 		return month + "/" + day + "/" + year;
 	}
+
+	public boolean equals(Object anotherDay){
+		if (anotherDay instanceof Day)
+			return ((Day) anotherDay).day == day && ((Day) anotherDay).month == month && ((Day) anotherDay).year == year;
+		return false;
+	}
+
+	public int hashCode(){
+		return toString().hashCode();
+	}
 }

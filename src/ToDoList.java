@@ -65,9 +65,7 @@ public class ToDoList {
 	 */
 	public Boolean isFilled(int index) {
 		System.out.println("fill?");
-		if(list.get(index).equals(null))
-			return false;
-		return true;
+		return list.get(index) != null;
 	}
 	
 	/**
