@@ -7,6 +7,10 @@ public class main {
 		Calendar calendar = new Calendar(dateset); //View
 		ToDoListFrame toDoListFrame = new ToDoListFrame(dateset);
 		
+		Day curDate = dateset.getSelectedDay();
+		ToDoList toDoList = dateset.getSelectedList();
+		toDoListFrame.repaint(dateset);
+		
 		/*
 		 * MVC: Model-View-Controller interactions
 		 * 
@@ -26,16 +30,6 @@ public class main {
 		 * ListItems from all ToDoLists in that month (V)
 		 * 
 		 */
-		
-		Day curDate = dateset.getSelectedDay();
-		ToDoList toDoList = dateset.getSelectedList();
-		
-		//when the dataset model is changed, update the bar graph view
-		//dateset.addChangeListener(event -> toDoListFrame.repaint(dateset));
-
-		
-		toDoListFrame.repaint(dateset);
-		
 		
 	}
 
