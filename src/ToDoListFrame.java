@@ -5,6 +5,10 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Displays a ToDoList retrieved from DateSet to a JFrame
+ * and allows user to modify the ToDoList.
+ */
 public class ToDoListFrame {
 
 	JFrame frame;

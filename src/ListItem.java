@@ -1,7 +1,10 @@
+/**
+ * Nodes for the ToDoList
+ */
 public class ListItem {
     String item;
 
-    public ListItem(String item){
+    public ListItem(String item) {
     	this.item = item;
     }
     
