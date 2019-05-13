@@ -34,7 +34,6 @@ public class DateSet
 	public void selectDay(Day Day) {
 		selectedEntry = Day;
 		selectedMonthEntry = null;
-		System.out.println("Selected month set to null");
 
 		if (!table.containsKey(selectedEntry))
 			add(selectedEntry);
@@ -109,6 +108,9 @@ public class DateSet
 		System.out.println("Building");
 		System.out.println("Month: " + getSelectedMonthList().toString());
 		
+		//rebuilding the ToDoList for selectedMonthEntry
+		table.get(selectedMonthEntry).reset();
+		
 		Set<Day> keys = table.keySet();
 		ToDoList monthlist = new ToDoList();
 		for(Day key: keys) {
@@ -116,19 +118,16 @@ public class DateSet
 			//if the entry matches same month and year...
 			if(key.getMonthValue() == selectedMonthEntry.getMonthValue()
 					&& key.getYear() == selectedMonthEntry.getYear()) {
-				//System.out.println("Copying " + key + " -> " + table.get(key));
 
 				//copy entry's list into the selectedMonthEntry's list
 				ToDoList templist = getList(key);
 				for(int j = 0; j < templist.getSize(); j++) {
 					if(templist.getItem(j) != null) {
 						monthlist.addItem(templist.getItem(j));
-						//table.get(selectedMonthEntry).addItem(templist.getItem(j));
 					}	
 				}
 			}
 		}
-		
 		upDateList(selectedMonthEntry, monthlist);
 		System.out.println("Month: " + getSelectedMonthList().toString());
 	}
