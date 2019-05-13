@@ -69,6 +69,13 @@ public class ToDoList {
 	}
 	
 	/**
+	 * Empty the ToDoList
+	 */
+	public void reset() {
+		list = new ArrayList<>();
+	}
+	
+	/**
 	 * Returns item at index
 	 * @param x
 	 * @return

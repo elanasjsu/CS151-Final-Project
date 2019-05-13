@@ -5,6 +5,10 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Displays a ToDoList retrieved from DateSet to a JFrame
+ * and allows user to modify the ToDoList.
+ */
 public class ToDoListFrame {
 
 	JFrame frame;
@@ -25,7 +29,12 @@ public class ToDoListFrame {
 		config();
 
 		set.addChangeListener(e -> {
-			date.setText(set.getSelectedDay().toString());
+			if(set.getSelectedMonth() != null) {
+				date.setText(set.getSelectedMonth().getMonthString() 
+						+ " " + set.getSelectedMonth().getYear());
+			}
+			else
+				date.setText(set.getSelectedDay().toString());
 			setData(set);
 			repaint(set);
 		});
@@ -37,12 +46,15 @@ public class ToDoListFrame {
 	 */
 	public void setData(DateSet set) {
 		this.set = set;
-		this.selectedList = set.getSelectedList();
+		if(set.getSelectedMonth() != null)
+			this.selectedList = set.getSelectedMonthList();
+		else
+			this.selectedList = set.getSelectedList();
 	}
 
 	/**
 	 * Get's the selectedEntry value from DateSet set,
-	 * retrieve the Date and ToDoList associated, and
+	 * retrieve the Day and ToDoList associated, and
 	 * add title + list to the frame.
 	 */
 	public void populateFrame() {
@@ -51,10 +63,16 @@ public class ToDoListFrame {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
-		date = new JLabel(set.getSelectedDay().toString()); //title of the ToDoList
-		
+		//title of the ToDoList
+		if(set.getSelectedMonth() != null) {
+			date = new JLabel(set.getSelectedMonth().getMonthString() 
+					+ " " + set.getSelectedMonth().getYear());
+		} else {
+			date = new JLabel(set.getSelectedDay().toString()); 
+		}
+			
 		createList();
-		
+
 		listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200, 250));
 
@@ -82,6 +100,7 @@ public class ToDoListFrame {
 	}
 
 	void createList(){
+		
 		//adds each item in the list to a panel
 		tasks = new String[selectedList.getSize()];
 		for(int i = 0; i < selectedList.getSize(); i++) {
@@ -94,7 +113,7 @@ public class ToDoListFrame {
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 	}
-	
+
 	public JTextField addTextField() {
 		JTextField field = new JTextField();
 
@@ -102,58 +121,42 @@ public class ToDoListFrame {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				System.out.println("Typed: " + field.getText());
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				System.out.println("Typed: " + field.getText());
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				System.out.println("Typed: " + field.getText());
 			}
 		});
-		
+
 		return field;
 	}
-	
+
 	public JPanel addButtons() {
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
+
 		buttonOne = new Button("delete task");
 		buttonTwo = new Button("edit task");
 		buttonThree = new Button("add task");
 		buttonFour = new Button("export");
-		
-		buttonOne.addActionListener(event ->
-        {
-        	deleteItem();
-		    System.out.println("Delete Button clicked");
+
+		buttonOne.addActionListener(event -> { deleteItem(); });
+
+		buttonTwo.addActionListener(event -> { editItem(); });
+
+		buttonThree.addActionListener(event -> { addNewItem(); });
+
+		buttonFour.addActionListener(event -> {
+			//System.out.println("Export Button clicked");
 		});
-		
-		buttonTwo.addActionListener(event ->
-        {
-        	editItem();
-		    System.out.println("Edit Button clicked");
-		});
-		
-		buttonThree.addActionListener(event ->
-        {
-        	addNewItem();
-		    System.out.println("Add Button clicked");
-		});
-		
-		buttonFour.addActionListener(event ->
-        {
-		    System.out.println("Export Button clicked");
-		});
-		
+
 		buttonPanel.add(buttonOne);
 		buttonPanel.add(buttonTwo);
 		buttonPanel.add(buttonThree);
@@ -167,28 +170,25 @@ public class ToDoListFrame {
 	 */
 	public void deleteItem() {
 		try {
-			System.out.println("In delete item");
-	    	selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
-	    	repaint(set);
+			selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
+			repaint(set);
 		} catch (Exception e) {};
 	}
-	
+
 	public void editItem() {
 		try{
-			System.out.println("Editting Item");
 			ListItem item = selectedList.getItem(list.getSelectedIndex());
 			item.setName(newItemText);
 			selectedList.changeItem(list.getSelectedIndex(), item);
 			repaint(set);
 		} catch (Exception e) {};
 	}
-	
+
 	/**
 	 * Adding Item to ToDoList and updates the dataset
 	 */
 	public void addNewItem() {
 		try{
-			System.out.println("In add new Item");
 			ListItem item = new ListItem(newItemText);
 			selectedList.addItem(item);
 			repaint(set);
