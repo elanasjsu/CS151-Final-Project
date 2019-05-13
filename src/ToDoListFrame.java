@@ -43,17 +43,14 @@ public class ToDoListFrame {
 	public void setData(DateSet set) {
 		this.set = set;
 		if(set.getSelectedMonth() != null)
-		{
 			this.selectedList = set.getSelectedMonthList();
-			System.out.println("Selected month is " + set.getSelectedMonth().getMonthString() + " " + set.getSelectedMonth());
-		}
-		else 
+		else
 			this.selectedList = set.getSelectedList();
 	}
 
 	/**
 	 * Get's the selectedEntry value from DateSet set,
-	 * retrieve the Date and ToDoList associated, and
+	 * retrieve the Day and ToDoList associated, and
 	 * add title + list to the frame.
 	 */
 	public void populateFrame() {
@@ -61,17 +58,15 @@ public class ToDoListFrame {
 		panel.setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
-		System.out.println("HERE");
 
 		//title of the ToDoList
-		if(set.getSelectedMonth() != null)
-		{
+		if(set.getSelectedMonth() != null) {
 			date = new JLabel(set.getSelectedMonth().getMonthString() 
 					+ " " + set.getSelectedMonth().getYear());
-		}
-		else
+		} else {
 			date = new JLabel(set.getSelectedDay().toString()); 
-
+		}
+			
 		createList();
 
 		listScroller = new JScrollPane(list);
@@ -101,6 +96,7 @@ public class ToDoListFrame {
 	}
 
 	void createList(){
+		
 		//adds each item in the list to a panel
 		tasks = new String[selectedList.getSize()];
 		for(int i = 0; i < selectedList.getSize(); i++) {
@@ -121,19 +117,16 @@ public class ToDoListFrame {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				//System.out.println("Typed: " + field.getText());
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				//System.out.println("Typed: " + field.getText());
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				newItemText = field.getText();
-				//System.out.println("Typed: " + field.getText());
 			}
 		});
 
@@ -150,26 +143,13 @@ public class ToDoListFrame {
 		buttonThree = new Button("add task");
 		buttonFour = new Button("export");
 
-		buttonOne.addActionListener(event ->
-		{
-			deleteItem();
-			//System.out.println("Delete Button clicked");
-		});
+		buttonOne.addActionListener(event -> { deleteItem(); });
 
-		buttonTwo.addActionListener(event ->
-		{
-			editItem();
-			//System.out.println("Edit Button clicked");
-		});
+		buttonTwo.addActionListener(event -> { editItem(); });
 
-		buttonThree.addActionListener(event ->
-		{
-			addNewItem();
-			//System.out.println("Add Button clicked");
-		});
+		buttonThree.addActionListener(event -> { addNewItem(); });
 
-		buttonFour.addActionListener(event ->
-		{
+		buttonFour.addActionListener(event -> {
 			//System.out.println("Export Button clicked");
 		});
 
@@ -186,7 +166,6 @@ public class ToDoListFrame {
 	 */
 	public void deleteItem() {
 		try {
-			//System.out.println("In delete item");
 			selectedList.deleteItem(selectedList.getItem(list.getSelectedIndex()));
 			repaint(set);
 		} catch (Exception e) {};
@@ -194,7 +173,6 @@ public class ToDoListFrame {
 
 	public void editItem() {
 		try{
-			//System.out.println("Editting Item");
 			ListItem item = selectedList.getItem(list.getSelectedIndex());
 			item.setName(newItemText);
 			selectedList.changeItem(list.getSelectedIndex(), item);
@@ -207,7 +185,6 @@ public class ToDoListFrame {
 	 */
 	public void addNewItem() {
 		try{
-			//System.out.println("In add new Item");
 			ListItem item = new ListItem(newItemText);
 			selectedList.addItem(item);
 			repaint(set);
