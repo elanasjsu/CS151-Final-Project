@@ -1,10 +1,12 @@
-/**
- * DaySet is the model used to hold a hashtable of Days and todolists.
- * Each Day has a day/month/year + a ToDoList Associated with it.
- */
 import java.util.*;
 import javax.swing.event.*;
 
+/**
+ * DateSet is a model thats hold a hashtable of Days and Todolists.
+ * Each Day has a day/month/year + a ToDoList associated with it.
+ * Can select a Day or Month on Calendar and display the ToDoList associated
+ * with it on the ToDoListFrame.
+ */
 public class DateSet
 {
 	private Hashtable<Day, ToDoList> table;
@@ -19,6 +21,9 @@ public class DateSet
 		setEmptySelectedEntry();
 	}
 
+	/**
+	 * Initialize default data.
+	 */
 	public void setEmptySelectedEntry() {
 		selectedEntry = new Day();
 		selectedMonthEntry = null;
@@ -58,8 +63,9 @@ public class DateSet
 
 	/**
 	 * Sets the month when user wants to display a month's todolist
-	 * and creates a month/year entry that has a day of 0. 
-	 * @param i
+	 * and creates a month/year entry that has a day of 0.
+	 * @param year
+	 * @param month
 	 */
 	public void selectMonthEntry(int year, int month) {
 		System.out.println("In selectMonthEntry(" + month + ", " + year + ")");
@@ -101,8 +107,10 @@ public class DateSet
 	}
 
 	/**
-	 * Adds the ToDoList from each Day entry that matches the same
-	 * selected month and year to a Month entry.
+	 * Builds the month todolist by adding each Day entry
+	 * that matches the same selected month and year to the month list.
+	 * @param year
+	 * @param month
 	 */
 	private void buildMonthList(int year, int month) {
 		System.out.println("Building");

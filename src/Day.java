@@ -1,5 +1,8 @@
 import java.time.*;
 
+/**
+ * Day class represents a date. 
+ */
 public class Day {
 	int year, month, day;
 	private static final int GREGORIAN_START_YEAR = 1582;
@@ -18,6 +21,10 @@ public class Day {
 		this.day = day;
 	}
 
+	/**
+	 * Sets the year.
+	 * @param year
+	 */
 	public void setYear(int year)
 	{
 		if(year > 0)
@@ -31,6 +38,10 @@ public class Day {
 		return year;
 	}
 
+	/**
+	 * Sets the month.
+	 * @param month
+	 */
 	public void setMonth(int month)
 	{
 		if(month > 0 && month < 13)
@@ -39,11 +50,19 @@ public class Day {
 			System.out.println("Invalid month argument.");
 	}
 
+	/**
+	 * Gets the int value of the current month.
+	 * @return
+	 */
 	public int getMonthValue()
 	{
 		return month;
 	}
 
+	/**
+	 * Converts int month to associated String name.
+	 * @return
+	 */
 	public String getMonthString() {
 		switch(month) {
 		case 1: return "January";
@@ -62,6 +81,10 @@ public class Day {
 		return null;
 	}
 
+	/**
+	 * Sets the day.
+	 * @param day
+	 */
 	public void setDayOfMonth(int day)
 	{
 		if(day > 0 && day < 32)
@@ -92,12 +115,18 @@ public class Day {
 		return month + "/" + day + "/" + year;
 	}
 
+	/**
+	 * Checks if one day equals another day.
+	 */
 	public boolean equals(Object anotherDay){
 		if (anotherDay instanceof Day)
 			return ((Day) anotherDay).day == day && ((Day) anotherDay).month == month && ((Day) anotherDay).year == year;
 		return false;
 	}
 
+	/**
+	 * Gets the hashcode.
+	 */
 	public int hashCode(){
 		return toString().hashCode();
 	}
