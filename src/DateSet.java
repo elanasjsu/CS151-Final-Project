@@ -10,18 +10,19 @@ public class DateSet
 	private Hashtable<Day, ToDoList> table;
 	private ArrayList<ChangeListener> listeners;
 	private Day selectedEntry; //indicates the Day for which todolist should be displayed
-	private int selectedMonth; //indicates the month for which month's todolist should be displayed
-	public int currentYear;
-	public int currentMonth;
+	private Day selectedMonthEntry;  //indicates the month for which month's todolist should be displayed
+	public Boolean displayMonthList;
 
 	public DateSet() {
 		table = new Hashtable<Day, ToDoList>();
 		listeners = new ArrayList<>();
 		setEmptySelectedEntry();
 	}
-	
+
 	public void setEmptySelectedEntry() {
 		selectedEntry = new Day();
+		selectedMonthEntry = null;
+		displayMonthList = false;
 		add(selectedEntry);
 		System.out.println("Initialized an empty list for today's Day.");
 	}
@@ -32,6 +33,8 @@ public class DateSet
 	 */
 	public void selectDay(Day Day) {
 		selectedEntry = Day;
+		selectedMonthEntry = null;
+		System.out.println("Selected month set to null");
 
 		if (!table.containsKey(selectedEntry))
 			add(selectedEntry);
@@ -56,17 +59,86 @@ public class DateSet
 
 	/**
 	 * Sets the month when user wants to display a month's todolist
+	 * and creates a month/year entry that has a day of 0. 
 	 * @param i
 	 */
-	public void setSelectedMonth(int i) {
-		if(i > 0 && i < 13)
-			selectedMonth = i;
-		else
+	public void selectMonthEntry(int year, int month) {
+		System.out.println("In selectMonthEntry(" + month + ", " + year + ")");
+		if(month > 0 && month < 13) {
+			Set<Day> keys = table.keySet();
+			Day match = null;
+			for(Day key: keys) {
+				//if entry already exists 
+				if(key.getMonthValue() == month && key.getYear() == year
+						&& key.getDayOfMonth() == 0) {
+					match = key;
+				} 
+			}
+			
+			//if found that month entry already
+			if(match != null) {
+				selectedMonthEntry = match;
+				System.out.println("Selected month already in database: " + selectedMonthEntry.toString());
+			} 
+			//otherwise create a new month entry with day = 0
+			else {
+				selectedMonthEntry = new Day(year, month, 0);
+				add(selectedMonthEntry);
+				System.out.println("Added month to database: " + selectedMonthEntry.toString());
+			}
+			
+			buildMonthList(year, month);
+
+			// Notify all observers of the change to the dataset
+			ChangeEvent event = new ChangeEvent(this);
+			for (ChangeListener listener : listeners)
+				listener.stateChanged(event);
+		} 
+		
+		//input error handling
+		else {
 			System.out.println("Enter a month between 1..12");
+		}
 	}
 
-	public int getSelectedMonth() {
-		return selectedMonth;
+	/**
+	 * Adds the ToDoList from each Day entry that matches the same
+	 * selected month and year to a Month entry.
+	 */
+	private void buildMonthList(int year, int month) {
+		System.out.println("Building");
+		System.out.println("Month: " + getSelectedMonthList().toString());
+		
+		Set<Day> keys = table.keySet();
+		ToDoList monthlist = new ToDoList();
+		for(Day key: keys) {
+			
+			//if the entry matches same month and year...
+			if(key.getMonthValue() == selectedMonthEntry.getMonthValue()
+					&& key.getYear() == selectedMonthEntry.getYear()) {
+				//System.out.println("Copying " + key + " -> " + table.get(key));
+
+				//copy entry's list into the selectedMonthEntry's list
+				ToDoList templist = getList(key);
+				for(int j = 0; j < templist.getSize(); j++) {
+					if(templist.getItem(j) != null) {
+						monthlist.addItem(templist.getItem(j));
+						//table.get(selectedMonthEntry).addItem(templist.getItem(j));
+					}	
+				}
+			}
+		}
+		
+		upDateList(selectedMonthEntry, monthlist);
+		System.out.println("Month: " + getSelectedMonthList().toString());
+	}
+
+	public Day getSelectedMonth() {
+		return selectedMonthEntry;
+	}
+
+	public ToDoList getSelectedMonthList() {
+		return table.get(selectedMonthEntry);
 	}
 
 	/**
@@ -82,7 +154,7 @@ public class DateSet
 	 * @param Day
 	 * @param list
 	 */
-	public void upDayList(Day Day, ToDoList list) {
+	public void upDateList(Day Day, ToDoList list) {
 		table.replace(Day, list);	
 
 		// Notify all observers of the change to the dataset
