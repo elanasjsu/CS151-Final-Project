@@ -1,4 +1,7 @@
+import com.sun.tools.javac.comp.Todo;
+
 import java.awt.*;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -147,15 +150,13 @@ public class ToDoListFrame {
 		buttonThree = new Button("add task");
 		buttonFour = new Button("export");
 
-		buttonOne.addActionListener(event -> { deleteItem(); });
+		buttonOne.addActionListener(event -> deleteItem());
 
-		buttonTwo.addActionListener(event -> { editItem(); });
+		buttonTwo.addActionListener(event -> editItem());
 
-		buttonThree.addActionListener(event -> { addNewItem(); });
+		buttonThree.addActionListener(event -> addNewItem());
 
-		buttonFour.addActionListener(event -> {
-			//System.out.println("Export Button clicked");
-		});
+		buttonFour.addActionListener(event -> exportItem());
 
 		buttonPanel.add(buttonOne);
 		buttonPanel.add(buttonTwo);
@@ -163,6 +164,41 @@ public class ToDoListFrame {
 		buttonPanel.add(buttonFour);
 
 		return buttonPanel;
+	}
+
+	public void exportItem() {
+		ToDoList list = set.getSelectedList();
+		String name = set.getSelectedDay().getMonthString()+"_"+set.getSelectedDay().getYear()+".txt";
+		if(!list.equals(set.getSelectedMonthList())){
+		    name = set.getSelectedDay().getDayOfMonth()+"_"+name;
+        }
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new java.io.File("."));
+		chooser.setDialogTitle("Save location");
+		chooser.setSelectedFile(new java.io.File("."));
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File parent = chooser.getSelectedFile();
+			File saveFile = new File(parent, name);
+			try {
+				if(saveFile.exists())
+					saveFile.delete();
+				saveFile.createNewFile();
+
+				FileWriter fw = new FileWriter(saveFile);
+				for(int i = 0; i < list.getSize(); i++) {
+					fw.append(list.getItem(i).toString());
+					fw.append("\n");
+				}
+				fw.flush();
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("No Selection ");
+		}
 	}
 
 	/**
